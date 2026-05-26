@@ -1,9 +1,6 @@
 // ================= CONFIGURAÇÕES GERAIS =================
-// 🔧 MUDE ESTA URL quando hospedar o backend em produção
 const API_URL = "https://lado-doce.onrender.com";
 
-// Wrapper de fetch que injeta o header necessário para o ngrok não retornar
-// a página de aviso no lugar do JSON (afeta todos os ambientes, inofensivo em produção)
 function apiFetch(url, options = {}) {
     const headers = {
         "ngrok-skip-browser-warning": "true",
@@ -86,7 +83,6 @@ function converterPrecoParaNumero(preco) {
 
 // ================= CARRINHO — SINCRONIZAÇÃO COM BACKEND =================
 
-// Ao logar: envia os itens locais pro banco e recarrega do banco
 async function sincronizarCarrinhoAoLogar(usuario) {
     if (carrinho.length === 0) {
         await carregarCarrinhoDoBackend(usuario);
@@ -588,8 +584,13 @@ if (entrarSenha) {
         const email = emailSenhaInput?.value?.trim();
         const senha = senhaInput?.value?.trim();
 
-        if (!email || !senha) {
-            alert("Preencha e-mail e senha.");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!email || !emailRegex.test(email)) {
+            alert("Insira um e-mail válido.");
+            return;
+        }
+        if (!senha || senha.length < 4) {
+            alert("Insira uma senha mais forte (mínimo 4 caracteres).");
             return;
         }
 
@@ -799,6 +800,17 @@ if (cadastrarConta) {
         const cpf = cpfCadastroInput?.value?.trim();
         const dataNascimento = dataNascimentoCadastroInput?.value?.trim();
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!emailRegex.test(email)) {
+            alert("Insira um e-mail válido.");
+            return;
+        }
+
+        if (senha.length < 4) {
+           alert("Insira uma senha mais forte (mínimo 4 caracteres).");
+           return;
+        }
+         
         if (!nome || !email || !senha || !confirmarSenha || !telefone || !cpf || !dataNascimento) {
             alert("Preencha todos os campos do cadastro.");
             return;

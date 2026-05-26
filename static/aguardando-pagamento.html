@@ -222,9 +222,8 @@
         document.getElementById("numeroPedido").textContent = `#${pedidoId}`;
     }
 
-    // Polling: verifica a cada 5s se o boleto foi pago
     let tentativas = 0;
-    const MAX_TENTATIVAS = 120; // 10 minutos
+    const MAX_TENTATIVAS = 120; 
 
     const intervalo = setInterval(async () => {
         if (!pedidoId || tentativas >= MAX_TENTATIVAS) {

@@ -1511,7 +1511,6 @@ async def webhook_pagamento(request: Request):
             metadata    = resp.get("metadata", {})
             pedido_id   = metadata.get("pedido_id")
 
-            # Extraindo todos os campos possíveis para debug e busca
             external_ref      = resp.get("external_reference")
             preference_id_pag = resp.get("preference_id") or str(resp.get("order", {}).get("id", ""))
             merchant_order_id = str(resp.get("order", {}).get("id", ""))
@@ -1519,10 +1518,8 @@ async def webhook_pagamento(request: Request):
             print(f"[Webhook MP] payment_id={payment_id} status={novo_status} pedido_id={pedido_id} preference_id={preference_id_pag}")
             print(f"[Webhook MP] external_ref={external_ref} | preference_id={resp.get('preference_id')} | order={resp.get('order')}")
 
-            # Busca o pedido: primeiro pelo pedido_id, depois pelo preference_id
             pedido = None
 
-            # 1. external_reference = pedido.id direto (mais confiável)
             if external_ref:
                 try:
                     pedido = db.query(models.Pedido).filter(
@@ -1533,7 +1530,6 @@ async def webhook_pagamento(request: Request):
                 except:
                     pass
 
-            # 2. Metadata pedido_id
             if not pedido and pedido_id:
                 try:
                     pedido = db.query(models.Pedido).filter(
@@ -1544,15 +1540,12 @@ async def webhook_pagamento(request: Request):
                 except:
                     pass
 
-            # 3. preference_id direto
             if not pedido and resp.get("preference_id"):
                 pedido = db.query(models.Pedido).filter(
                     models.Pedido.mp_preference_id == resp.get("preference_id")
                 ).first()
                 if pedido:
                     print(f"[Webhook MP] Pedido encontrado pelo preference_id: {pedido.id}")
-
-            # 4. merchant_order_id como fallback (boleto pago às vezes só vem com isso)
             if not pedido and merchant_order_id:
                 pedido = db.query(models.Pedido).filter(
                     models.Pedido.mp_preference_id == merchant_order_id
@@ -1588,7 +1581,6 @@ async def webhook_pagamento(request: Request):
                         print(f"[Webhook MP] Pedido {pedido.id} → pago ✅")
 
                 elif novo_status == "pending":
-                    # pending = boleto emitido; muda para aguardando_boleto
                     if pedido.status in ("aguardando_pagamento", "aguardando_boleto"):
                         pedido.status = "aguardando_boleto"
                         db.commit()
@@ -1658,11 +1650,6 @@ def status_pedido_pagamento(pedido_id: int):
 
 @app.delete("/admin/pedidos/limpar-expirados", dependencies=[Depends(verificar_admin)])
 def limpar_pedidos_expirados():
-    """
-    Cancela dois tipos de pedido expirado e devolve o estoque:
-    - aguardando_pagamento com mais de 30 min (cartão/débito abandonado)
-    - aguardando_boleto com mais de 3 dias (boleto não pago)
-    """
     db = SessionLocal()
     try:
         limite_cartao = datetime.utcnow() - timedelta(minutes=30)
@@ -1706,13 +1693,6 @@ def limpar_pedidos_expirados():
 # CANCELAMENTO AUTOMÁTICO EM BACKGROUND
 # ==============================
 async def cancelar_pedidos_expirados_automatico():
-    """
-    Roda a cada 5 minutos.
-    - aguardando_pagamento > 30 min → expirado (devolve estoque)
-    - aguardando_boleto > 3 dias   → expirado (devolve estoque)
-    Status "expirado" = sistema cancelou por timeout (não aparece pro cliente)
-    Status "cancelado" = admin ou MP cancelou (aparece pro cliente)
-    """
     while True:
         await asyncio.sleep(300)
         db = SessionLocal()

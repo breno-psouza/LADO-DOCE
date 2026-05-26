@@ -1,8 +1,6 @@
 // ================= CONFIGURAÇÕES =================
 const API_URL = "https://lado-doce.onrender.com";
-// Chave vem do que o admin digitou no login — nunca hardcoded no código
 
-// Chamada pelo admin.html após login bem-sucedido
 function iniciarAdmin() {
     carregarProdutos();
     carregarClientes();
@@ -351,7 +349,7 @@ async function salvarProduto() {
         const url = editProdutoId ? `${API_URL}/admin/produto/${editProdutoId}` : `${API_URL}/admin/produto`;
         const method = editProdutoId ? "PUT" : "POST";
 
-        const res = await fetch(url, {
+        const res = await adminFetch(url, {
             method,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(corpo)
