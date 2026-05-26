@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lado Doce</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Trirong:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagens/Monograma.png" type="image/png">
+</head>
+<body>
+
+<header class="cabecalio">
+
+    <div class="btnsCabecalio">
+
+        <button class="menuBtn" type="button">
+            <img src="imagens/iconeMenu.svg" class="menuIcon" alt="Abrir menu">
+            <a href="index.html" class="logoTexto">LADO DOCE</a>
+        </button>
+
+        <a href="https://wa.me/5511940546668" class="botaoHover">
+            <span>COMPRE PELO WHATSAPP</span>
+        </a>
+
+    <div class="iconesCab">
+
+
+            <button class="btnSacola" id="abrirSacola" type="button">
+                <img src="imagens/IconeSacola.svg" alt="Abrir sacola">
+            </button>
+
+        <div class="areaUsuario">
+            <button class="botaoLogin" type="button">
+               <img src="imagens/iconeUsuario.svg" alt="Área do usuário">
+             </button>
+
+         <div class="userMenu" id="userMenu">
+              <button type="button" id="btnMinhaConta">Minha conta</button>
+              <button type="button" id="btnPedidos">Meus pedidos</button>
+                <button type="button" id="btnLogout">Sair</button>
+        </div>
+        </div>
+    </div>
+
+    <div class="menu">
+        <div class="menuLayer"></div>
+
+        <nav class="menuContent">
+            <a href="https://wa.me/5511940546668">AJUDA E SUPORTE</a>
+            <a href="sobre.html">SOBRE NÓS</a>
+            <a href="#catalogo">CATALOGO COMPLETO</a>
+        </nav>
+    </div>
+
+</header>
+
+<main>
+
+    <section class="pagInicial">
+        <div class="conteudoPI">
+            <div>
+                <h1 class="logoLD split-text">LADO DOCE</h1>
+                <h2 class="subLogoLD split-text">Vista o lado doce da vida.</h2>
+                <h3 class="sloganLD">
+                    Há mais de 5 anos presente em lojas de Norte a Sul do Brasil! <br>
+                    Fabricação própria • Lançamentos semanais <br>
+                    VOCÊ EMPREENDENDO COM SUCESSO!
+                </h3>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="lancamentosSemana" id="lancamentos">
+        <div class="titulo-secao">
+            <h2>LANÇAMENTOS DA SEMANA</h2>
+        </div>
+
+        <div class="imagemLancamentos" id="listaLancamentos"></div>
+
+        <div class="mensagem-catalogo-vazio" id="mensagemLancamentosVazio">
+            <h3>Em breve, novos lançamentos por aqui.</h3>
+            <p>A cliente pode adicionar os produtos pelo painel administrativo.</p>
+        </div>
+
+        <div class="texto-rodape-secao">
+            <h3>
+                Toda semana tem novidade por aqui. T-shirts limitadas, delicadas e cheias de identidade.
+            </h3>
+        </div>
+    </section>
+
+    <section id="catalogo" class="catalogo catalogoUnico">
+        <div class="titulo-secao">
+            <h2>T-SHIRTS LADO DOCE</h2>
+        </div>
+
+        <div class="imagemCatalogo" id="listaCatalogo"></div>
+
+        <div class="mensagem-catalogo-vazio" id="mensagemCatalogoVazio">
+            <h3>O catálogo ainda está vazio.</h3>
+            <p>Cadastre as primeiras T-shirts no painel administrativo para elas aparecerem aqui automaticamente.</p>
+        </div>
+    </section>
+
+</main>
+
+<div id="overlay"></div>
+
+<div id="modal">
+    <div class="modal-box">
+
+        <button class="fecharModal" type="button">✕</button>
+
+        <div class="tela active" id="telaEscolha">
+            <h2>Como quer entrar?</h2>
+
+            <button class="btnPrincipal" id="irEmail" type="button">
+                Entrar apenas com e-mail
+            </button>
+
+            <button class="btnSecundario" id="irSenha" type="button">
+                Entrar com e-mail e senha
+            </button>
+        </div>
+
+        <div class="tela" id="telaEmail">
+            <h2>Entrar com e-mail</h2>
+            <p>Digite seu e-mail para receber o código</p>
+
+            <input type="email" id="emailInput" placeholder="Seu e-mail" required>
+
+            <div class="botoesLinha">
+                <button class="btnVoltar" type="button">Voltar</button>
+                <button class="btnPrincipal" id="enviarEmail" type="button">Continuar</button>
+            </div>
+        </div>
+
+        <div class="tela" id="telaCodigo">
+            <h2>Digite seu código</h2>
+
+            <p class="infoEmail"></p>
+
+            <input type="text" id="codigoInput" placeholder="Digite o código" required>
+
+            <div class="botoesLinha">
+                <button class="btnVoltar" type="button">Voltar</button>
+                <button class="btnPrincipal" id="verificarCodigo" type="button">Entrar</button>
+            </div>
+        </div>
+
+        <div class="tela" id="telaSenha">
+            <h2>Entrar com senha</h2>
+
+            <input type="email" id="emailSenhaInput" placeholder="Seu e-mail" required>
+            <input type="password" id="senhaInput" placeholder="Sua senha" required>
+
+            <a href="#" class="linkSenha">Esqueci minha senha</a>
+
+            <p class="textoAux">
+                Ainda não tem conta?
+                <a href="#" class="linkCriarConta">Criar agora</a>
+            </p>
+
+            <div class="botoesLinha">
+                <button class="btnVoltar" type="button">Voltar</button>
+                <button class="btnPrincipal" id="entrarSenha" type="button">Entrar</button>
+            </div>
+        </div>
+
+        <div class="tela" id="telaCadastro">
+            <h2>Cadastro de usuário</h2>
+            <p>Bem-vindo! Crie sua conta</p>
+
+            <input type="text" id="nomeCadastroInput" placeholder="Nome completo" required>
+            <input type="email" id="emailCadastroInput" placeholder="Seu e-mail" required>
+            <input type="password" id="senhaCadastroInput" placeholder="Senha" required>
+            <input type="password" id="confirmarSenhaCadastroInput" placeholder="Confirmar senha" required>
+            <input type="tel" id="telefoneCadastroInput" placeholder="Telefone celular" required>
+            <input type="text" id="cpfCadastroInput" placeholder="CPF" required>
+            <input type="date" id="dataNascimentoCadastroInput" required>
+
+            <div class="botoesLinha">
+                <button class="btnVoltar" type="button">Voltar</button>
+                <button class="btnPrincipal" id="cadastrarConta" type="button">Criar conta</button>
+            </div>
+        </div>
+
+<!-- ESQUECI SENHA-->
+<div class="tela" id="telaEsqueciSenha">
+    <h2>Esqueci minha senha</h2>
+    <p>Digite o e-mail da sua conta para receber o código</p>
+ 
+    <input type="email" id="emailRecuperacaoInput" placeholder="Seu e-mail" required>
+ 
+    <div class="botoesLinha">
+        <button class="btnVoltar" type="button">Voltar</button>
+        <button class="btnPrincipal" id="enviarCodigoRecuperacao" type="button">Enviar código</button>
+    </div>
+</div>
+ 
+<div class="tela" id="telaRedefinirSenha">
+    <h2>Criar nova senha</h2>
+ 
+    <p class="infoEmailRecuperacao"></p>
+ 
+    <input type="text"     id="codigoRecuperacaoInput"  placeholder="Código recebido por e-mail" required>
+    <input type="password" id="novaSenhaInput"           placeholder="Nova senha" required>
+    <input type="password" id="confirmarNovaSenhaInput"  placeholder="Confirmar nova senha" required>
+ 
+    <div class="botoesLinha">
+        <button class="btnVoltar" type="button">Voltar</button>
+        <button class="btnPrincipal" id="confirmarRedefinicao" type="button">Salvar senha</button>
+    </div>
+</div>
+
+        <div class="tela" id="telaSucesso">
+            <h2 id="tituloSucesso">Você está pronto(a) para viver o lado doce da vida! </h2>
+            <p id="textoSucesso">Login realizado com sucesso.</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="overlaySacola" id="overlaySacola"></div>
+
+<aside class="sacolaLateral" id="sacolaLateral">
+    <div class="topoSacola">
+        <h2>Sacola</h2>
+        <div class="topoSacolaDireita">
+            <span id="contadorSacola">0 produtos</span>
+            <button class="fecharSacola" id="fecharSacola" type="button">×</button>
+        </div>
+    </div>
+
+    <div class="sacolaVazia" id="sacolaVazia">
+        <img src="imagens/sacola-vazia.png" alt="Sacola vazia">
+        <p>Sua sacola está vazia</p>
+        <a href="#catalogo" class="btnEscolherProdutos">Escolher produtos</a>
+    </div>
+
+    <div class="sacolaComItens" id="sacolaComItens">
+        <div class="listaItensSacola" id="listaItensSacola"></div>
+
+        <div class="resumoSacola">
+            <p>Sub total: <span id="subtotalSacola">R$ 0,00</span></p>
+            <button class="btnFinalizar" type="button">Finalizar compra</button>
+        </div>
+    </div>
+</aside>
+
+<footer>
+
+    <div class="logoFooter">
+        <img class="logoLd" src="imagens/elede.svg" alt="Logo EledE">
+    </div>
+
+<div class="botoesFooter">
+
+    <!-- ENDEREÇO -->
+    <a href="https://www.google.com/maps/search/?api=1&query=Rua+Hannemann+352" target="_blank" class="endereco">
+        <div class="icones">
+            <img src="imagens/mapa.svg" class="imagemMapa" alt="Mapa">
+        </div>
+        <h3>Rua Hannemann 352</h3>
+    </a>
+
+    <!-- BOTÃO -->
+    <a href="https://wa.me/5511940546668" target="_blank" class="botaoVendedorafooter">
+        <span>COMPRE AGORA</span>
+    </a>
+
+    <!-- REDES -->
+    <div class="footerRedes">
+        <h3>REDES SOCIAIS</h3>
+        <div class="icones">
+            <a href="https://instagram.com/ladodocetshirt" target="_blank">
+                <img src="imagens/instagram.svg" class="iconesRede">
+            </a>
+            <a href="https://www.tiktok.com/@ladodocetshirt" target="_blank">
+                <img src="imagens/tiktok.svg" class="iconesRede">
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

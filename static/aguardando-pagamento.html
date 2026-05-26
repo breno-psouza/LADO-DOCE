@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aguardando Pagamento — Lado Doce</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Trirong:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagens/Monograma.png" type="image/png">
+    <style>
+        .pagRetorno {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: #f8f5f3;
+        }
+
+        .cardRetorno {
+            background: #fff;
+            border-radius: 24px;
+            padding: 52px 48px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .iconeRetorno { font-size: 64px; line-height: 1; }
+
+        .cardRetorno h1 {
+            font-family: Trirong, serif;
+            font-size: 28px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .cardRetorno p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .infoPedido {
+            background: #f8f5f3;
+            border-radius: 14px;
+            padding: 18px 28px;
+            width: 100%;
+        }
+
+        .infoPedido p { font-size: 14px; color: #777; margin-bottom: 4px; }
+        .infoPedido strong { font-size: 22px; color: #000; display: block; }
+
+        .statusPolling {
+            font-size: 13px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 14px; height: 14px;
+            border: 2px solid #ddd;
+            border-top-color: #6f5151;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .passosBoleto {
+            background: #f8f5f3;
+            border-radius: 14px;
+            padding: 20px 24px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .passosBoleto h3 {
+            font-family: Trirong, serif;
+            font-size: 14px;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .passosBoleto ol {
+            padding-left: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .passosBoleto li {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .botoesRetorno {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btnPrincipalRetorno {
+            font-family: Trirong, serif;
+            font-size: 17px;
+            background: #6f5151;
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btnPrincipalRetorno:hover { background: #5a3f3f; }
+
+        .btnSecundarioRetorno {
+            font-family: Trirong, serif;
+            font-size: 17px;
+            background: transparent;
+            border: 1px solid #6f5151;
+            color: #6f5151;
+            padding: 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .btnSecundarioRetorno:hover { background: #6f5151; color: #fff; }
+    </style>
+</head>
+<body>
+
+<header class="cabecalio">
+    <div class="btnsCabecalio">
+        <button class="menuBtn" type="button">
+            <img src="imagens/iconeMenu.svg" class="menuIcon" alt="Abrir menu">
+            <a href="index.html" class="logoTexto">LADO DOCE</a>
+        </button>
+    </div>
+</header>
+
+<main>
+    <section class="pagRetorno">
+        <div class="cardRetorno">
+            <h1>Aguardando pagamento</h1>
+
+            <p>Seu boleto foi gerado com sucesso! Assim que o pagamento for confirmado, você receberá um e-mail e seu pedido será preparado.</p>
+
+            <div class="infoPedido">
+                <p>Pedido nº</p>
+                <strong id="numeroPedido">—</strong>
+            </div>
+
+            <div class="statusPolling" id="statusPolling">
+                <div class="spinner"></div>
+                <span>Verificando pagamento automaticamente...</span>
+            </div>
+
+            <div class="passosBoleto">
+                <h3>Como pagar seu boleto:</h3>
+                <ol>
+                    <li>Acesse o app do seu banco ou internet banking</li>
+                    <li>Escolha "Pagar boleto" e escaneie ou cole o código de barras</li>
+                    <li>O prazo de compensação é de até 3 dias úteis</li>
+                    <li>Você receberá um e-mail assim que confirmarmos o pagamento</li>
+                </ol>
+            </div>
+
+            <div class="botoesRetorno">
+                <button class="btnPrincipalRetorno" onclick="window.location.href='pedidos.html'">
+                    Ver meus pedidos
+                </button>
+                <button class="btnSecundarioRetorno" onclick="window.location.href='index.html'">
+                    Voltar para a loja
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="logoFooter">
+        <img class="logoLd" src="imagens/elede.svg" alt="Logo EledE">
+    </div>
+    <div class="botoesFooter">
+        <a href="https://wa.me/5511940546668" target="_blank" class="botaoVendedorafooter">
+            <span>COMPRE AGORA</span>
+        </a>
+        <div class="footerRedes">
+            <h3>REDES SOCIAIS</h3>
+            <div class="icones">
+                <a href="https://instagram.com/ladodocetshirt" target="_blank">
+                    <img src="imagens/instagram.svg" class="iconesRede">
+                </a>
+                <a href="https://www.tiktok.com/@ladodocetshirt" target="_blank">
+                    <img src="imagens/tiktok.svg" class="iconesRede">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const API_URL = "http://localhost:8000";
+    const params  = new URLSearchParams(window.location.search);
+    const pedidoId = params.get("pedido_id") || localStorage.getItem("ladoDocePedidoAtual");
+
+    if (pedidoId) {
+        document.getElementById("numeroPedido").textContent = `#${pedidoId}`;
+    }
+
+    // Polling: verifica a cada 5s se o boleto foi pago
+    let tentativas = 0;
+    const MAX_TENTATIVAS = 120; // 10 minutos
+
+    const intervalo = setInterval(async () => {
+        if (!pedidoId || tentativas >= MAX_TENTATIVAS) {
+            clearInterval(intervalo);
+            document.getElementById("statusPolling").innerHTML =
+                "<span style='color:#999'>Verificação automática encerrada. Atualize a página para verificar manualmente.</span>";
+            return;
+        }
+
+        tentativas++;
+        try {
+            const res  = await fetch(`${API_URL}/pagamento/status/${pedidoId}`);
+            const data = await res.json();
+
+            if (data.status === "pago") {
+                clearInterval(intervalo);
+                localStorage.removeItem("ladoDoceCarrinho");
+                localStorage.removeItem("ladoDocePedidoAtual");
+                window.location.href = `compracerta.html?pedido_id=${pedidoId}`;
+            }
+        } catch (e) {
+            console.error("Erro no polling:", e);
+        }
+    }, 5000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1848 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+@font-face {
+    font-family: logoPrincipal;
+    src: url(fontes/Delmon\ Delicate.otf) format('truetype');
+    font-weight: normal;
+    font-style: normal;  
+}
+
+
+@font-face {
+    font-family: logoSeundario;
+    src: url(fontes/Balistany.otf) format('truetype');
+    font-weight: normal;
+    font-style: normal;  
+}
+
+
+body {
+    background-color: #fff;
+    color: rgba(255, 255, 255, 0.9); 
+    font-family: 'PT Serif', serif;
+}
+
+button {
+    font-family: Trirong;
+    cursor: pointer;
+}
+
+/* ================= CABEÇALIO ================= */
+
+.cabecalio {
+    background-color: #f8f5f3;
+    width: 100%;
+    height: 10vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 2.5vw 4vw;
+
+    position: relative;
+    z-index: 10;
+}
+
+.btnsCabecalio{
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 10vw
+}
+
+.menuBtn {  
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    z-index: 100;
+}
+
+.menuBtn img {
+    width: 2.75vw;
+    height: auto;
+}
+
+
+.menu {
+
+    opacity: 0;
+
+    background: #f8f5f3;
+
+    position: absolute; /* NÃO fixed */
+    top: 6vw;
+    left: 4vw;
+
+    width: 16vw;
+    height: 12vw;
+
+    border-radius: 25px;
+    overflow: hidden;
+
+    pointer-events: none;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+
+.menuLayer {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #f8f5f3;
+
+    transform: translateY(-100%);
+}
+
+
+.menuContent {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 2vw;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+
+.menuContent a {
+    font-family: Trirong;
+    font-size: 1vw;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.95);
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5vw;
+
+    transition: color 0.2s ease;
+}
+
+.menuContent a:hover{
+    color:#000;
+}
+
+
+.botaoHover{
+position:relative;
+display:inline-flex;
+
+font-family: Trirong;
+font-size:1.5vw;
+font-weight:600;
+
+text-decoration:none;
+color:#4B3C37;
+
+padding:0.4vw 1.2vw;
+
+overflow:hidden;
+
+border-radius:10vw;
+
+border:none;
+
+transition:all 0.35s ease;
+
+}
+
+
+.botaoHover span{
+position:relative;
+z-index:2;
+transition:color 0.3s;
+}
+
+
+.botaoHover::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+border-radius:10vw;
+
+background:linear-gradient(
+180deg,
+rgba(111,81,81,0.9) 0%,
+rgba(167,69,69,0.35) 100%
+);
+
+box-shadow:
+0 8px 20px rgba(0,0,0,0.35),
+inset 0 1px 0 rgba(255,255,255,0.35);
+
+opacity:0;
+
+transition:0.35s;
+
+z-index:1;
+
+}
+
+
+.botaoHover:hover::before{
+opacity:1;
+}
+
+.botaoHover:hover span{
+color:white;
+}
+
+.botaoHover:hover{
+transform:translateY(-2px);
+}
+
+
+.iconesCab {
+    display: flex;
+    gap: 1vw;
+}
+
+.logoTexto {
+    font-family: logoPrincipal;
+    color: rgba(0, 0, 0, 0.95);
+    font-size: 1.5vw;
+    text-decoration:none;
+}
+
+
+
+
+
+
+
+/* ================= PAGINA INICIAL ================= */
+
+.pagInicial {
+    background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(111, 81, 81, 1) 100%), url("imagens/backgrundLD.svg");
+    background-position: center;
+    background-size: cover;
+
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+.conteudoPI {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; 
+    gap: 2rem;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.logoLD {
+    font-family: logoPrincipal;
+    color: rgba(0, 0, 0, 0.95);
+    font-size: 7vw;
+    margin-top: 2vw;
+}
+
+.subLogoLD {
+    font-family: logoSeundario;
+    color: rgba(0, 0, 0, 0.95);
+     font-size: 5vw;
+     font-weight: 10;
+     margin-top: -3.5vw;
+}
+
+.sloganLD {
+    font-family: Trirong;
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 1.3vw;
+    margin-top: 2vw;
+}
+
+.split-text{
+display:inline-block;
+}
+
+.split-text span{
+display:inline-block;
+opacity:0;
+transform:translateY(40px);
+}
+
+
+.botoesPI-wrapper{
+display:flex;
+justify-content:center;
+align-items:center;
+margin-top:5vw;
+}
+
+
+
+.tabsPI{
+position:relative;
+
+display:flex;
+align-items:center;
+
+border:1px solid rgba(255,255,255,0.7);
+border-radius:10vw;
+
+padding:6px;
+
+width:fit-content;
+
+background:rgba(255,255,255,0.05);
+backdrop-filter: blur(8px);
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.25);
+
+}
+
+
+
+.tabItem{
+
+background:transparent;
+border:none;
+
+color:#fff;
+
+font-size:1.5vw;
+
+padding:0.6vw 2vw;
+
+cursor:pointer;
+
+position:relative;
+z-index:2;
+
+white-space:nowrap;
+
+letter-spacing:0.05em;
+
+transition:0.25s;
+
+font-family:Trirong;
+}
+
+
+
+.tabItem:hover{
+color:#fff;
+transform:translateY(-1px);
+}
+
+
+
+.tabCursor{
+
+position:absolute;
+
+height:100%;
+
+top:0;
+
+left:0;
+
+border-radius:10vw;
+
+background:linear-gradient(
+180deg,
+rgba(111,81,81,0.9) 0%,
+rgba(167,69,69,0.35) 100%
+);
+
+box-shadow:
+0 8px 20px rgba(0,0,0,0.35),
+inset 0 1px 0 rgba(255,255,255,0.35);
+
+transition:
+left 0.45s cubic-bezier(.22,.61,.36,1),
+width 0.45s cubic-bezier(.22,.61,.36,1),
+opacity 0.25s;
+
+opacity:0;
+
+pointer-events:none;
+
+}   
+
+.botaoLogin {
+    border: none;
+    background: none;
+}
+
+/* ================= AREA DE LOGIN ================= */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.09);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+#overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+#modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%) scale(1.95);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s ease;
+    z-index: 20;
+}
+
+#modal.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* caixa */
+.modal-box {
+    background: #fff;
+    width: 500px; 
+    height: auto;
+    padding: 30px;
+    border-radius: 12px;
+
+    font-family: Trirong;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* fechar */
+.fecharModal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* telas */
+.tela {
+    position: relative;
+    display: none;
+}
+
+.tela p {
+    color: #000000ef;
+    font-size: 16px;
+}
+
+.tela.active {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* títulos */
+.modal-box h2 {
+    color: #000000ef;
+    font-size: 40px;
+}
+
+.infoEmail {
+    color: #000000ef;
+    font-size: 16px;
+}
+
+.linkCriarConta {
+    font-size: 0.9rem;
+    color: #6f5151;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.linkCriarConta:hover {
+    opacity: 0.7;
+}
+
+/* inputs */
+.modal-box input {
+    font-size: 20px;
+    padding: 16px;
+    border-radius: 20px;
+    border: 2px solid #6f5151;
+}
+
+/* botões */
+.btnPrincipal {
+    font-size: 20px;
+    background: #6f5151;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.btnSecundario {
+    font-size: 20px;
+    background: transparent;
+    border: 1px solid #6f5151;
+    color: #6f5151;
+    padding: 16px;
+    border-radius: 25px;
+}
+
+/* linha */
+.botoesLinha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnVoltar {
+    font-size: 20px;
+    padding: 16px;
+    border-radius: 25px;
+    background: none;
+    border: none;
+    color: #6f5151;
+    cursor: pointer;
+}
+
+/* link */
+.linkSenha {
+    font-size: 16px;
+    color: #6f5151;
+}   
+
+.textoAux {
+    font-size: 16px;
+    color: #000;
+}
+
+.textoAux a {
+    color: #6f5151;
+    text-decoration: underline;
+}
+
+
+
+
+/*menu usuario */
+
+.areaUsuario {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.botaoLogin {
+    border: none;
+    background: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.botaoLogin img {
+    width: 2.2vw;
+    min-width: 22px;
+    height: auto;
+    display: block;
+}
+
+.userMenu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 190px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 18px 35px rgba(75, 60, 55, 0.14);
+    padding: 0.6rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 200;
+}
+
+.userMenu.active {
+    display: flex;
+}
+
+.userMenu button {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 0.85rem 0.95rem;
+    text-align: left;
+    font-family: Trirong, serif;
+    font-size: 0.95rem;
+    color: #4B3C37;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.userMenu button:hover {
+    background: #f8f1ee;
+    transform: translateX(2px);
+}
+
+@media (max-width: 700px) {
+    .botaoLogin img {
+        width: 24px;
+    }
+
+    .userMenu {
+        min-width: 170px;
+        right: -8px;
+    }
+}
+
+
+
+
+/* =========================================================
+   PRODUTOS: LANÇAMENTOS + CATÁLOGO
+========================================================= */
+
+/* ================= FUNDO E ESTRUTURA DAS SEÇÕES ================= */
+
+.lancamentosSemana {
+    background: linear-gradient(
+        rgba(111, 81, 81, 1) 0%,
+        rgba(111, 81, 81, 0.5) 55%,
+        rgba(111, 81, 81, 0.5) 55%,
+        rgba(111, 81, 81, 1) 100%
+    );
+}
+
+.catalogo {
+    background: linear-gradient(
+        180deg,
+        rgba(111, 81, 81, 1) 0%,
+        rgba(188, 151, 137, 1) 100%
+    );
+}
+
+.catalogoMeio {
+    background-color: #BC9789;
+}
+
+.catalogoFim {
+    background: linear-gradient(
+        180deg,
+        rgba(188, 151, 137, 1) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+}
+
+.lancamentosSemana,
+.catalogo,
+.catalogoMeio,
+.catalogoFim {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8vw 4vw;
+    gap: 4vw;
+}
+
+
+/* ================= TÍTULOS DAS SEÇÕES ================= */
+
+.lancamentosSemana h2 {
+    color: #f8f5f3;
+    font-size: clamp(1.8rem, 2.5vw, 2.7rem);
+    font-family: Trirong;
+    text-align: center;
+    margin: 0;
+    letter-spacing: 0.04em;
+}
+
+.titulo-secao {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.texto-rodape-secao h3 {
+    font-size: 1.5vw;
+    text-align: center;
+    margin-top: 15px;
+}
+
+
+/* ================= GRID DOS PRODUTOS ================= */
+
+.lancamentosSemana .imagemLancamentos,
+.catalogo .imagemCatalogo,
+.catalogoMeio .imagemCatalogo,
+.catalogoFim .imagemCatalogo {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 60px 5%;
+}
+
+
+/* ================= CARD EXTERNO DO PRODUTO ================= */
+
+.lancamentosSemana .produto,
+.catalogo .produto,
+.catalogoMeio .produto,
+.catalogoFim .produto {
+    width: 30%;
+    min-width: 340px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+
+/* ================= ÁREA DA IMAGEM ================= */
+
+.lancamentosSemana .imagem-produto,
+.catalogo .imagem-produto,
+.catalogoMeio .imagem-produto,
+.catalogoFim .imagem-produto {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4.2;
+    border-radius: 50px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+/* ================= IMAGEM PRINCIPAL + HOVER ================= */
+
+.lancamentosSemana .img-principal,
+.lancamentosSemana .img-hover,
+.catalogo .img-principal,
+.catalogo .img-hover,
+.catalogoMeio .img-principal,
+.catalogoMeio .img-hover,
+.catalogoFim .img-principal,
+.catalogoFim .img-hover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease;
+    border-radius: 50px;
+}
+
+.lancamentosSemana .img-hover,
+.catalogo .img-hover,
+.catalogoMeio .img-hover,
+.catalogoFim .img-hover {
+    opacity: 0;
+    z-index: 2;
+}
+
+.lancamentosSemana .produto:hover .img-hover,
+.catalogo .produto:hover .img-hover,
+.catalogoMeio .produto:hover .img-hover,
+.catalogoFim .produto:hover .img-hover {
+    opacity: 1;
+}
+
+
+/* ================= CARD INTERNO QUE SOBE NO HOVER ================= */
+
+.lancamentosSemana .card-produto,
+.catalogo .card-produto,
+.catalogoMeio .card-produto,
+.catalogoFim .card-produto {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 10;
+}
+
+.lancamentosSemana .produto:hover .card-produto,
+.catalogo .produto:hover .card-produto,
+.catalogoMeio .produto:hover .card-produto,
+.catalogoFim .produto:hover .card-produto {
+    transform: translateY(0);
+}
+
+
+/* ================= TEXTO DO CARD ================= */
+
+.lancamentosSemana .card-produto h3,
+.catalogo .card-produto h3,
+.catalogoMeio .card-produto h3,
+.catalogoFim .card-produto h3 {
+    color: #4B3C37;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: 'Trirong';
+    margin: 0;
+}
+
+.lancamentosSemana .preco-card,
+.catalogo .preco-card,
+.catalogoMeio .preco-card,
+.catalogoFim .preco-card {
+    color: #6f5151;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.lancamentosSemana .info-externa h3,
+.catalogo .info-externa h3,
+.catalogoMeio .info-externa h3,
+.catalogoFim .info-externa h3 {
+    font-size: 1.5vw;
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Trirong';
+}
+
+
+/* ================= TAMANHOS ================= */
+
+.lancamentosSemana .lista-tamanhos,
+.catalogo .lista-tamanhos,
+.catalogoMeio .lista-tamanhos,
+.catalogoFim .lista-tamanhos {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lancamentosSemana .btn-tamanho,
+.catalogo .btn-tamanho,
+.catalogoMeio .btn-tamanho,
+.catalogoFim .btn-tamanho {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.lancamentosSemana .btn-tamanho:hover,
+.lancamentosSemana .btn-tamanho.selecionado,
+.catalogo .btn-tamanho:hover,
+.catalogo .btn-tamanho.selecionado,
+.catalogoMeio .btn-tamanho:hover,
+.catalogoMeio .btn-tamanho.selecionado,
+.catalogoFim .btn-tamanho:hover,
+.catalogoFim .btn-tamanho.selecionado {
+    background: #6f5151;
+    color: white;
+    border-color: #6f5151;
+}
+
+
+/* ================= BOTÃO ADICIONAR ================= */
+
+.lancamentosSemana .adicionar-carrinho,
+.catalogo .adicionar-carrinho,
+.catalogoMeio .adicionar-carrinho,
+.catalogoFim .adicionar-carrinho {
+    background: #6f5151;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    width: 90%;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SACOLA LATERAL
+========================================================= */
+
+/* ================= BOTÃO E OVERLAY ================= */
+
+.btnSacola {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.overlaySacola {
+    position: fixed;
+    inset: 0;
+    background: rgba(19, 15, 14, 0.22);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.35s ease;
+    z-index: 40;
+}
+
+.overlaySacola.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* ================= PAINEL LATERAL ================= */
+
+.sacolaLateral {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 430px;
+    max-width: 100%;
+    height: 100vh;
+    background: #f8f5f3;
+    box-shadow: -18px 0 40px rgba(75, 60, 55, 0.12);
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 50;
+
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.6rem;
+    overflow: hidden;
+}
+
+.sacolaLateral.active {
+    transform: translateX(0);
+}
+
+
+/* ================= TOPO DA SACOLA ================= */
+
+.topoSacola {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.topoSacola h2 {
+    font-family: logoPrincipal, "Times New Roman", serif;
+    color: #846a60;
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.topoSacolaDireita {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: Trirong, serif;
+    color: #846a60;
+    font-size: 0.95rem;
+}
+
+.fecharSacola {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #846a60;
+    cursor: pointer;
+    line-height: 1;
+}
+
+
+/* ================= ESTADO VAZIO ================= */
+
+.sacolaVazia {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.8rem;
+    text-align: center;
+}
+
+.sacolaVazia img {
+    width: 240px;
+    max-width: 82%;
+    height: auto;
+    filter: drop-shadow(0 18px 18px rgba(75, 60, 55, 0.08));
+}
+
+.sacolaVazia p {
+    font-family: Trirong, serif;
+    color: #846a60;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+
+/* ================= BOTÕES DA SACOLA ================= */
+
+.btnEscolherProdutos,
+.btnFinalizar {
+    background: #130f0e;
+    color: #f8f5f3;
+    border: none;
+    border-radius: 999px;
+    padding: 1rem 2.4rem;
+    font-family: Trirong, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btnEscolherProdutos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btnEscolherProdutos:hover,
+.btnFinalizar:hover {
+    transform: translateY(-2px);
+    opacity: 0.96;
+}
+
+
+/* ================= ESTADO COM ITENS ================= */
+
+.sacolaComItens {
+    display: none;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sacolaComItens.active {
+    display: flex;
+}
+
+.listaItensSacola {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 0.4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+/* ================= SCROLLBAR DA SACOLA ================= */
+
+.listaItensSacola::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listaItensSacola::-webkit-scrollbar-thumb {
+    background: #d0b6ac;
+    border-radius: 20px;
+}
+
+.listaItensSacola::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* ================= ITEM DA SACOLA ================= */
+
+.itemSacola {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 0.9rem;
+    align-items: start;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(132, 106, 96, 0.18);
+}
+
+.itemSacola img {
+    width: 90px;
+    height: 118px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #e4d5d0;
+}
+
+.infoItemSacola h3 {
+    font-family: Trirong, serif;
+    color: #4b3c37;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin: 0 0 0.35rem 0;
+    line-height: 1.3;
+}
+
+.infoItemSacola p {
+    font-family: Trirong, serif;
+    color: #bc9789;
+    font-size: 0.95rem;
+    margin: 0 0 0.35rem 0;
+}
+
+.infoItemSacola span {
+    display: block;
+    font-family: Trirong, serif;
+    color: #846a60;
+    font-size: 0.9rem;
+}
+
+
+/* ================= CONTROLE DE QUANTIDADE ================= */
+
+.controleQuantidade {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+}
+
+.controleQuantidade button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #bc9789;
+    background: #fff;
+    color: #4b3c37;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.controleQuantidade span {
+    min-width: 20px;
+    text-align: center;
+    font-family: Trirong, serif;
+    color: #846a60;
+}
+
+
+/* ================= REMOVER ITEM ================= */
+
+.removerItem {
+    background: transparent;
+    border: none;
+    color: #846a60;
+    cursor: pointer;
+    font-size: 1.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.removerItem:hover {
+    transform: scale(1.15);
+    opacity: 0.8;
+}
+
+
+/* ================= RESUMO DA SACOLA ================= */
+
+.resumoSacola {
+    background: #e4d5d0;
+    border-radius: 18px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.resumoSacola p {
+    font-family: Trirong, serif;
+    color: #846a60;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+
+
+
+
+
+/* ================= RESET LINKS ================= */
+
+/* remove azul e sublinhado de TODOS os links do footer */
+footer a{
+    text-decoration: none;
+    color: inherit;
+}
+
+/* evita aquele azul roxo depois de clicado */
+footer a:visited{
+    color: inherit;
+}
+
+/* ================= RODAPÉ ================= */
+
+footer {
+    margin-top: 120px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 4vw 4vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+
+    color: rgba(0, 0, 0, 0.95);
+}
+
+/* LOGO */
+.logoLd {
+    width: 7vw;
+    height: auto;
+}
+
+.logoFooter{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ================= GRID FOOTER ================= */
+
+.botoesFooter {
+    display: flex;
+    justify-content: center; /* centraliza melhor */
+    align-items: center;
+    gap: 10rem; /* menor que 16rem (tava exagerado) */
+    flex-wrap: wrap; /* evita quebrar layout em telas menores */
+}
+
+/* ================= ENDEREÇO ================= */
+
+.footerRedes {
+    font-size: 1.2rem;
+    gap: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.3s;
+}
+
+/* HOVER suave no bloco inteiro */
+.footerRedes:hover{
+    transform: translateY(-4px);
+    opacity: 0.85;
+}
+
+/* ÍCONE MAPA */
+.imagemMapa {
+    width: 2.5vw;
+    min-width: 22px;
+}
+
+/* ================= REDES ================= */
+
+.icones{
+    width: auto;
+    gap: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconesRede {
+    width: 2.2vw;
+    min-width: 20px;
+
+    transition: 0.3s;
+}
+
+.iconesRede:hover{
+    transform: scale(1.2);
+}
+
+/* ================= BOTÃO ================= */
+
+.botaoVendedorafooter{
+
+    font-family: Trirong;
+    font-size: 1.1vw;
+
+    padding: 0.8vw 2.4vw;
+
+    border-radius: 10vw;
+    border: 1px solid rgba(111,81,81,0.6);
+
+    background: #fff;
+    color: #6f5151;
+
+    cursor: pointer;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    letter-spacing: 0.06em;
+
+    transition: all 0.35s ease;
+}
+
+/* GRADIENTE */
+.botaoVendedorafooter::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background: linear-gradient(
+        135deg,
+        rgba(111,81,81,1),
+        rgba(167,69,69,0.7)
+    );
+
+    opacity:0;
+    transition:0.35s;
+    z-index:0;
+}
+
+/* TEXTO */
+.botaoVendedorafooter span{
+    position:relative;
+    z-index:2;
+}
+
+/* HOVER PREMIUM */
+.botaoVendedorafooter:hover{
+    color:#fff;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.botaoVendedorafooter:hover::before{
+    opacity:1;
+}
+
+/* ================= TITULO ================= */
+
+footer h2 {
+    width: 75%;
+    text-align: left;
+    font-family: logoPrincipal;
+    font-size: 2vw;
+    margin: 0;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 768px){
+
+    .botoesFooter{
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .botaoVendedorafooter{
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .imagemMapa{
+        width: 28px;
+    }
+
+    .iconesRede{
+        width: 24px;
+    }
+}
+
+
+
+/* ================= ESTADO DE LOGIN ================= */
+.botaoLogin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.textoLoginEstado {
+    color: #4B3C37;
+    font-family: Trirong, serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.botaoLogin.logado .textoLoginEstado {
+    color: #6f5151;
+}
+
+/* ================= TELA DE SUCESSO ================= */
+.tela-sucesso {
+    align-items: center;
+    text-align: center;
+}
+
+.iconeSucesso {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(111,81,81,0.95) 0%, rgba(188,151,137,0.95) 100%);
+    margin: 0 auto 0.8rem;
+    box-shadow: 0 12px 24px rgba(111,81,81,0.18);
+}
+
+/* ================= CHECKOUT ================= */
+
+.checkout-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8f5f3 0%, #ffffff 100%);
+    color: #4B3C37;
+    font-family: Trirong, serif;
+}
+
+/* HEADER DO CHECKOUT */
+.checkoutHeader {
+    width: 100%;
+    background-color: #f8f5f3;
+    padding: 1.2rem 4vw;
+    border-bottom: 1px solid rgba(111, 81, 81, 0.12);
+}
+
+.checkoutHeader .btnsCabecalio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    height: auto;
+}
+
+.logoCheckout {
+    display: flex;
+    align-items: center;
+}
+
+.logoCheckoutTitulo {
+    font-family: logoPrincipal;
+    color: rgba(0, 0, 0, 0.95);
+    font-size: clamp(2.4rem, 4vw, 4.2rem);
+    line-height: 1;
+    margin: 0;
+}
+
+.checkoutHeader .botaoHover {
+    flex-shrink: 0;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    padding: 0.7rem 1.5rem;
+}
+
+/* WRAPPER GERAL */
+.checkout-wrapper {
+    width: min(1180px, 92vw);
+    margin: 0 auto;
+    padding: 2rem 0 4rem;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+}
+
+/* COLUNAS */
+.checkout-coluna,
+.checkout-resumo {
+    background: #fff;
+    border-radius: 28px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 50px rgba(75, 60, 55, 0.08);
+}
+
+.checkout-bloco + .checkout-bloco {
+    margin-top: 1rem;
+}
+
+.checkout-bloco h2,
+.checkout-resumo h2 {
+    margin-bottom: 1rem;
+    color: #6f5151;
+    font-size: 1.5rem;
+    font-family: Trirong, serif;
+}
+
+/* GRID DOS CAMPOS */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.checkout-grid .full {
+    grid-column: 1 / -1;
+}
+
+.checkout-page label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    font-size: 0.96rem;
+    color: #6f5151;
+}
+
+.checkout-page input,
+.checkout-page select {
+    border: 1px solid #d8c6c0;
+    border-radius: 18px;
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+    color: #4B3C37;
+    font-family: Trirong, serif;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.checkout-page input:focus,
+.checkout-page select:focus {
+    border-color: #bc9789;
+    box-shadow: 0 0 0 3px rgba(188, 151, 137, 0.16);
+}
+
+/* FRETE */
+.opcoes-frete {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.opcao-frete {
+    border: 1px solid #e3d4cf;
+    border-radius: 18px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.opcao-frete:hover {
+    border-color: #bc9789;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(75, 60, 55, 0.06);
+}
+
+.opcao-frete input {
+    margin-right: 0.6rem;
+}
+
+/* RESUMO */
+.listaResumoCheckout {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.itemResumoCheckout {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.itemResumoCheckout img {
+    width: 72px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+.linhaResumo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+    color: #6f5151;
+}
+
+.totalResumo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #130f0e;
+}
+
+/* BOTÃO PAGAR */
+.btnPagar {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* MENSAGEM */
+.mensagemCheckout {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: #f8f1ee;
+    color: #6f5151;
+    display: none;
+}
+
+.mensagemCheckout.active {
+    display: block;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+    .checkout-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .checkoutHeader .btnsCabecalio {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .checkoutHeader .botaoHover {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .textoLoginEstado {
+        display: none;
+    }
+
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logoCheckoutTitulo {
+        font-size: 2.4rem;
+    }
+}
+/* Produtos criados no admin usam o mesmo corte visual dos cards da loja */
+.produto-admin .img-principal,
+.produto-admin .img-hover {
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* ================= HOME MAIS LIMPA - FOCO EM T-SHIRTS ================= */
+.heroChamada {
+    margin-top: 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+.heroChamada p {
+    max-width: 680px;
+    color: rgba(0, 0, 0, 0.86);
+    font-family: Trirong, serif;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    line-height: 1.7;
+}
+
+.btnVerTshirts {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(111,81,81,0.95) 0%, rgba(167,69,69,0.55) 100%);
+    border-radius: 999px;
+    padding: 0.9rem 2.4rem;
+    font-family: Trirong, serif;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    box-shadow: 0 14px 28px rgba(75,60,55,0.22);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.btnVerTshirts:hover {
+    transform: translateY(-2px);
+    opacity: 0.96;
+}
+
+.catalogoUnico {
+    background: linear-gradient(180deg, rgba(111,81,81,1) 0%, rgba(188,151,137,1) 48%, rgba(255,255,255,1) 100%);
+    min-height: 80vh;
+}
+
+.mensagem-catalogo-vazio {
+    display: none;
+    width: min(720px, 92vw);
+    text-align: center;
+    color: #f8f5f3;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    border-radius: 28px;
+    padding: 2rem;
+    font-family: Trirong, serif;
+}
+
+.catalogoUnico .mensagem-catalogo-vazio {
+    color: #4B3C37;
+    background: rgba(255,255,255,0.55);
+    border-color: rgba(111,81,81,0.16);
+}
+
+.mensagem-catalogo-vazio.active {
+    display: block;
+}
+
+.mensagem-catalogo-vazio h3 {
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    margin-bottom: 0.5rem;
+}
+
+.mensagem-catalogo-vazio p {
+    font-size: 1rem;
+}
+
+.seloProduto {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    z-index: 12;
+    background: rgba(248,245,243,0.92);
+    color: #6f5151;
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    font-family: Trirong, serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(75,60,55,0.12);
+}
+
+@media (max-width: 700px) {
+    .heroChamada {
+        margin-top: 2rem;
+    }
+
+    .heroChamada p {
+        font-size: 1rem;
+    }
+}
+
+
+/* ================= AJUSTES FINAIS FRONT - HERO SEM BOTÃO ================= */
+
+/* ================= AJUSTES FINAIS ADMIN ================= */
+.dashboard-toolbar { background: #fff; border-radius: 16px; padding: 14px; margin-bottom: 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.dashboard-toolbar label { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #333; }
+.dashboard-toolbar select { padding: 9px 12px; border: 1px solid #ddd; border-radius: 12px; background: #fafafa; }
+.dashboard-historico { background: #fff; border-radius: 16px; padding: 18px; margin-top: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.dashboard-historico h3 { margin-bottom: 12px; font-size: 18px; }
+.config-grid-admin { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.config-card-admin { background: #fff; border: 1px solid #eee; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.config-card-admin.full { grid-column: 1 / -1; }
+.config-card-admin h3 { margin: 0 0 6px; font-size: 16px; color: #4B3C37; }
+.config-card-admin textarea { width: 100%; min-height: 88px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; resize: vertical; font-family: 'Segoe UI', sans-serif; }
+.config-card-admin small { color: #777; line-height: 1.5; }
+@media (max-width: 900px) { .config-grid-admin, .dashboard-cards { grid-template-columns: 1fr; } .dashboard-toolbar { flex-direction: column; align-items: stretch; } }
+
+.produto-esgotado {
+    opacity: 0.6;
+}
+
+.badge-esgotado {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #111;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.adicionar-carrinho:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    color: #888;
+}

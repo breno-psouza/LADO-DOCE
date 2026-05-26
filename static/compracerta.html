@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado — Lado Doce</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Trirong:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagens/Monograma.png" type="image/png">
+    <style>
+        .pagRetorno {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: #f8f5f3;
+        }
+
+        .cardRetorno {
+            background: #fff;
+            border-radius: 24px;
+            padding: 52px 48px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .iconeRetorno {
+            font-size: 64px;
+            line-height: 1;
+        }
+
+        .cardRetorno h1 {
+            font-family: Trirong, serif;
+            font-size: 28px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .cardRetorno p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .infoPedido {
+            background: #f8f5f3;
+            border-radius: 14px;
+            padding: 18px 28px;
+            width: 100%;
+        }
+
+        .infoPedido p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .infoPedido strong {
+            font-size: 22px;
+            color: #000;
+            display: block;
+        }
+
+        .botoesRetorno {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btnPrincipalRetorno {
+            font-family: Trirong, serif;
+            font-size: 17px;
+            background: #6f5151;
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btnPrincipalRetorno:hover { background: #5a3f3f; }
+
+        .btnSecundarioRetorno {
+            font-family: Trirong, serif;
+            font-size: 17px;
+            background: transparent;
+            border: 1px solid #6f5151;
+            color: #6f5151;
+            padding: 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .btnSecundarioRetorno:hover {
+            background: #6f5151;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<header class="cabecalio">
+    <div class="btnsCabecalio">
+        <button class="menuBtn" type="button">
+            <img src="imagens/iconeMenu.svg" class="menuIcon" alt="Abrir menu">
+            <a href="index.html" class="logoTexto">LADO DOCE</a>
+        </button>
+    </div>
+</header>
+
+<main>
+    <section class="pagRetorno">
+        <div class="cardRetorno">
+            <h1>Pedido confirmado!</h1>
+
+            <p>Seu pagamento foi aprovado e seu pedido já está sendo preparado com carinho. Em breve você receberá um e-mail de confirmação.</p>
+
+            <div class="infoPedido">
+                <p>Pedido nº</p>
+                <strong id="numeroPedido">—</strong>
+            </div>
+
+            <div class="botoesRetorno">
+                <button class="btnPrincipalRetorno" onclick="window.location.href='pedidos.html'">
+                    Ver meus pedidos
+                </button>
+                <button class="btnSecundarioRetorno" onclick="window.location.href='index.html'">
+                    Voltar para a loja
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="logoFooter">
+        <img class="logoLd" src="imagens/elede.svg" alt="Logo EledE">
+    </div>
+    <div class="botoesFooter">
+        <a href="https://wa.me/5511940546668" target="_blank" class="botaoVendedorafooter">
+            <span>COMPRE AGORA</span>
+        </a>
+        <div class="footerRedes">
+            <h3>REDES SOCIAIS</h3>
+            <div class="icones">
+                <a href="https://instagram.com/ladodocetshirt" target="_blank">
+                    <img src="imagens/instagram.svg" class="iconesRede">
+                </a>
+                <a href="https://www.tiktok.com/@ladodocetshirt" target="_blank">
+                    <img src="imagens/tiktok.svg" class="iconesRede">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Lê pedido_id da URL e exibe
+    const params = new URLSearchParams(window.location.search);
+    const pedidoId = params.get("pedido_id") || localStorage.getItem("ladoDocePedidoAtual");
+    if (pedidoId) {
+        document.getElementById("numeroPedido").textContent = `#${pedidoId}`;
+    }
+    // Limpa carrinho após compra aprovada
+    localStorage.removeItem("ladoDoceCarrinho");
+    localStorage.removeItem("ladoDocePedidoAtual");
+</script>
+
+</body>
+</html>

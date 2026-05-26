@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos | Lado Doce</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .listaPedidos { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+
+        .cardPedido {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+        .cardPedido:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+
+        .cardPedidoTopo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .cardPedidoTopo h3 { margin: 0; font-size: 16px; }
+        .cardPedidoTopo p { margin: 0; font-size: 14px; color: #666; }
+
+        .statusPedido {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .statusPedido.pendente  { background: #fff3cd; color: #856404; }
+        .statusPedido.pago      { background: #d1e7dd; color: #0f5132; }
+        .statusPedido.enviado   { background: #cfe2ff; color: #084298; }
+        .statusPedido.entregue  { background: #d1e7dd; color: #0f5132; }
+        .statusPedido.cancelado { background: #f8d7da; color: #842029; }
+        .statusPedido.aguardando_pagamento { background: #fff3cd; color: #856404; }
+        .statusPedido.aguardando_boleto    { background: #fef3c7; color: #92400e; }
+
+        .avisoBoleto {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #fff8e1;
+            border-left: 3px solid #f59e0b;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .detalhesPedido {
+            display: none;
+            margin-top: 16px;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+        .detalhesPedido.aberto { display: block; }
+
+        .itemPedidoDetalhe {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .itemPedidoDetalhe img {
+            width: 50px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .itemPedidoDetalhe div { flex: 1; }
+        .itemPedidoDetalhe strong { display: block; font-size: 14px; }
+        .itemPedidoDetalhe span { font-size: 12px; color: #666; }
+
+        .resumoPedido {
+            margin-top: 12px;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .resumoPedido .totalPedido {
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .carregandoPedidos { text-align: center; padding: 40px; color: #999; }
+        .semPedidos { text-align: center; padding: 40px; color: #999; }
+    </style>
+</head>
+<body class="checkout-page">
+
+<header class="cabecalio checkoutHeader">
+    <div class="btnsCabecalio">
+        <div class="logoCheckout">
+            <h1 class="logoCheckoutTitulo">LADO DOCE</h1>
+        </div>
+        <a href="index.html" class="botaoHover">
+            <span>VOLTAR PARA A LOJA</span>
+        </a>
+    </div>
+</header>
+
+<main class="checkout-wrapper">
+    <section class="checkout-coluna">
+        <div class="checkout-bloco">
+            <h2>Meus pedidos</h2>
+            <div id="containerPedidos" class="listaPedidos">
+                <div class="carregandoPedidos">Carregando seus pedidos...</div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="checkout-resumo">
+        <h2>Status</h2>
+        <p>Acompanhe aqui todos os seus pedidos e o status de entrega.</p>
+        <br>
+        <p><strong>Pendente</strong> — aguardando pagamento</p>
+        <p><strong>Pago</strong> — pagamento confirmado</p>
+        <p><strong>Enviado</strong> — a caminho</p>
+        <p><strong>Entregue</strong> — recebido com sucesso</p>
+    </aside>
+</main>
+
+<script>
+    // API_URL dinâmico: usa a mesma origem se servido pelo FastAPI (ngrok/produção),
+    // ou cai para localhost:8000 em desenvolvimento local direto.
+    const API_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        ? "http://localhost:8000"
+        : window.location.origin;
+
+    // Wrapper que injeta o header do ngrok (evita página de aviso no lugar do JSON)
+    function apiFetch(url, options = {}) {
+        const headers = { "ngrok-skip-browser-warning": "true", ...(options.headers || {}) };
+        return fetch(url, { ...options, headers });
+    }
+    const usuario = JSON.parse(localStorage.getItem("ladoDoceUser") || "null");
+
+    if (!usuario) {
+        alert("Você precisa estar logado(a) para acessar seus pedidos.");
+        window.location.href = "index.html";
+    }
+
+    function formatarMoeda(valor) {
+        return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function classeStatus(status) {
+        return status?.toLowerCase().replace(" ", "-") || "pendente";
+    }
+
+    async function carregarPedidos() {
+        const container = document.getElementById("containerPedidos");
+
+        try {
+            const res = await apiFetch(`${API_URL}/pedido/${usuario.id}`);
+            if (!res.ok) throw new Error();
+
+            const pedidos = await res.json();
+
+            if (pedidos.length === 0) {
+                container.innerHTML = `<div class="semPedidos">Você ainda não fez nenhum pedido. <a href="index.html">Ir às compras!</a></div>`;
+                return;
+            }
+
+            container.innerHTML = "";
+
+            for (const pedido of pedidos) {
+                // Busca detalhes de cada pedido
+                const resDetalhe = await apiFetch(`${API_URL}/pedido/detalhe/${pedido.pedido_id}`);
+                const detalhe = resDetalhe.ok ? await resDetalhe.json() : null;
+
+                const card = document.createElement("div");
+                card.className = "cardPedido";
+
+                const itensHTML = detalhe?.itens?.map(item => `
+                    <div class="itemPedidoDetalhe">
+                        <img src="${item.imagem_url || 'imagens/Monograma.png'}" alt="${item.produto}">
+                        <div>
+                            <strong>${item.produto}</strong>
+                            <span>${item.tamanho} · ${item.cor} · Qtd ${item.quantidade}</span>
+                            <span>${formatarMoeda(item.subtotal)}</span>
+                        </div>
+                    </div>
+                `).join("") || "";
+
+                const freteHTML = detalhe?.frete ? `
+                    <p>Frete: ${detalhe.frete.tipo} · ${detalhe.frete.valor === 0 ? "Grátis" : formatarMoeda(detalhe.frete.valor)} · ${detalhe.frete.prazo}</p>
+                ` : "";
+
+                const usuario = JSON.parse(localStorage.getItem("ladoDoceUser") || "null");
+                const enderecoHTML = usuario ? `
+                    <div style="margin-top:12px; padding:10px; background:#f8f8f8; border-radius:6px; font-size:13px;">
+                        <strong>Endereço de entrega:</strong><br>
+                        ${usuario.rua || "-"}, ${usuario.numero || "-"}${usuario.complemento ? " — " + usuario.complemento : ""}<br>
+                        CEP: ${usuario.cep || "-"} · ${usuario.uf || "-"}
+                    </div>
+                ` : "";
+
+                const statusLabel = {
+                    aguardando_pagamento: "⏳ Aguardando pagamento",
+                    aguardando_boleto:    "📄 Boleto aguardando compensação",
+                    pendente:  "🕐 Pendente",
+                    pago:      "✅ Pago",
+                    enviado:   "🚚 Enviado",
+                    entregue:  "📦 Entregue",
+                    cancelado: "❌ Cancelado"
+                };
+
+                // Aviso só aparece se o boleto foi realmente emitido pelo MP
+                const avisoBoletoHTML = pedido.status === "aguardando_boleto" ? `
+                    <div class="avisoBoleto">
+                        📄 Boleto emitido! Após o pagamento, pode levar até 3 dias úteis para confirmar.
+                        O pedido será preparado assim que o pagamento for reconhecido.
+                    </div>
+                ` : "";
+
+                card.innerHTML = `
+                    <div class="cardPedidoTopo">
+                        <div>
+                            <h3>Pedido #${pedido.pedido_id}</h3>
+                            <p>${pedido.data}</p>
+                        </div>
+                        <span class="statusPedido ${classeStatus(pedido.status)}">${statusLabel[pedido.status] || pedido.status}</span>
+                    </div>
+                    ${avisoBoletoHTML}
+                    <div class="detalhesPedido" id="detalhe-${pedido.pedido_id}">
+                        ${itensHTML}
+                        <div class="resumoPedido">
+                            ${freteHTML}
+                            <p class="totalPedido">Total: ${formatarMoeda(pedido.total)}</p>
+                        </div>
+                        ${enderecoHTML}
+                    </div>
+                `;
+
+                // Clique para abrir/fechar detalhes
+                card.addEventListener("click", () => {
+                    const detalheDiv = document.getElementById(`detalhe-${pedido.pedido_id}`);
+                    detalheDiv.classList.toggle("aberto");
+                });
+
+                container.appendChild(card);
+            }
+
+        } catch (e) {
+            console.error("Erro ao carregar pedidos:", e);
+            container.innerHTML = `<div class="semPedidos" style="color:red">Erro ao carregar pedidos. Verifique se o servidor está rodando.</div>`;
+        }
+    }
+
+    carregarPedidos();
+</script>
+
+</body>
+</html>

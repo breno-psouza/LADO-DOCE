@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta | Lado Doce</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="checkout-page">
+
+    <header class="cabecalio checkoutHeader">
+        <div class="btnsCabecalio">
+            <div class="logoCheckout">
+                <h1 class="logoCheckoutTitulo">LADO DOCE</h1>
+            </div>
+            <a href="index.html" class="botaoHover">
+                <span>VOLTAR PARA A LOJA</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="checkout-wrapper">
+        <section class="checkout-coluna">
+            <div class="checkout-bloco">
+                <h2>Minha conta</h2>
+
+                <div class="checkout-grid">
+                    <label class="full">
+                        Nome
+                        <input type="text" id="contaNome" placeholder="Seu nome completo">
+                    </label>
+
+                    <label class="full">
+                        E-mail
+                        <input type="email" id="contaEmail" placeholder="Seu e-mail" disabled>
+                    </label>
+
+                    <label>
+                        Telefone
+                        <input type="text" id="contaTelefone" placeholder="Seu telefone">
+                    </label>
+
+                    <label>
+                        CEP
+                        <input type="text" id="contaCep" placeholder="00000-000">
+                    </label>
+
+                    <label class="full">
+                        Rua
+                        <input type="text" id="contaRua" placeholder="Nome da rua">
+                    </label>
+
+                    <label>
+                        Número
+                        <input type="text" id="contaNumero" placeholder="Número">
+                    </label>
+
+                    <label>
+                        Complemento
+                        <input type="text" id="contaComplemento" placeholder="Apto, bloco...">
+                    </label>
+
+                    <label>
+                        UF
+                        <input type="text" id="contaUf" placeholder="SP" maxlength="2">
+                    </label>
+                </div>
+
+                <button class="btnPrincipal btnPagar" id="btnSalvarConta" type="button">
+                    Salvar dados
+                </button>
+
+                <button class="btnPrincipal btnPagar" id="btnLogoutConta" type="button" style="margin-top: 12px; background: #333;">
+                    Sair da conta
+                </button>
+
+                <div class="mensagemCheckout" id="mensagemConta"></div>
+            </div>
+        </section>
+
+        <aside class="checkout-resumo">
+            <h2>Resumo</h2>
+            <p>Mantenha seus dados atualizados para agilizar suas próximas compras.</p>
+            <br>
+            <p>O e-mail não pode ser alterado pois é usado para login.</p>
+        </aside>
+    </main>
+
+    <script>
+        const API_URL = "http://localhost:8000";
+        const CHAVE_USUARIO = "ladoDoceUser";
+        const usuario = JSON.parse(localStorage.getItem(CHAVE_USUARIO) || "null");
+
+        if (!usuario) {
+            alert("Você precisa estar logado(a) para acessar sua conta.");
+            window.location.href = "index.html";
+        }
+
+        // Preenche os campos com os dados já salvos
+        document.getElementById("contaNome").value      = usuario?.nome || "";
+        document.getElementById("contaEmail").value     = usuario?.email || "";
+        document.getElementById("contaTelefone").value  = usuario?.telefone || "";
+        document.getElementById("contaCep").value       = (usuario?.cep === "00000000" ? "" : usuario?.cep) || "";
+        document.getElementById("contaRua").value       = (usuario?.rua === "A preencher" ? "" : usuario?.rua) || "";
+        document.getElementById("contaNumero").value    = (usuario?.numero === "S/N" ? "" : usuario?.numero) || "";
+        document.getElementById("contaComplemento").value = usuario?.complemento || "";
+        document.getElementById("contaUf").value        = usuario?.uf || "";
+
+        // Auto-preenche endereço ao digitar CEP
+        document.getElementById("contaCep").addEventListener("blur", async () => {
+            const cep = document.getElementById("contaCep").value.replace(/\D/g, "");
+            if (cep.length < 8) return;
+
+            try {
+                const res = await fetch(`${API_URL}/calcular-frete`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cep })
+                });
+                const data = await res.json();
+                if (data.endereco) {
+                    document.getElementById("contaRua").value = data.endereco.logradouro || "";
+                    document.getElementById("contaUf").value  = data.endereco.uf || "";
+                }
+            } catch (e) {
+                console.error("Erro ao buscar CEP:", e);
+            }
+        });
+
+        // Salvar dados
+        document.getElementById("btnSalvarConta").addEventListener("click", async () => {
+            const btn = document.getElementById("btnSalvarConta");
+            const mensagem = document.getElementById("mensagemConta");
+
+            const nome      = document.getElementById("contaNome").value.trim();
+            const telefone  = document.getElementById("contaTelefone").value.trim();
+            const cep       = document.getElementById("contaCep").value.replace(/\D/g, "") || "00000000";
+            const rua       = document.getElementById("contaRua").value.trim() || "A preencher";
+            const numero    = document.getElementById("contaNumero").value.trim() || "S/N";
+            const complemento = document.getElementById("contaComplemento").value.trim();
+            const uf        = document.getElementById("contaUf").value.trim() || "SP";
+
+            btn.disabled = true;
+            btn.textContent = "Salvando...";
+
+            try {
+                const res = await fetch(`${API_URL}/usuario/${usuario.id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nome, telefone, cep, rua, numero, complemento, uf })
+                });
+
+                const data = await res.json();
+
+                if (data.erro) {
+                    mensagem.classList.add("active");
+                    mensagem.style.color = "red";
+                    mensagem.textContent = data.erro;
+                    return;
+                }
+
+                // Atualiza o localStorage com os novos dados
+                const usuarioAtualizado = { ...usuario, nome, telefone, cep, rua, numero, complemento, uf };
+                localStorage.setItem(CHAVE_USUARIO, JSON.stringify(usuarioAtualizado));
+
+                mensagem.classList.add("active");
+                mensagem.style.color = "green";
+                mensagem.textContent = "Dados salvos com sucesso!";
+
+            } catch (e) {
+                console.error("Erro ao salvar:", e);
+                mensagem.classList.add("active");
+                mensagem.style.color = "red";
+                mensagem.textContent = "Erro de conexão com o servidor.";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Salvar dados";
+            }
+        });
+
+        // Logout
+        document.getElementById("btnLogoutConta").addEventListener("click", () => {
+            localStorage.removeItem(CHAVE_USUARIO);
+            window.location.href = "index.html";
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Administrativo</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <div id="telaLoginAdmin" style="
+    position: fixed; inset: 0; background: #111;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 9999; gap: 12px;">
+    <h2 style="color: white; font-family: sans-serif;">LADO DOCE — Admin</h2>
+    <input id="senhaAdmin" type="password" placeholder="Senha"
+        style="padding: 10px 16px; font-size: 16px; border-radius: 6px; border: none; width: 260px;">
+    <button onclick="verificarSenhaAdmin()"
+        style="padding: 10px 24px; background: white; border: none;
+        border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: bold;">
+        Entrar
+    </button>
+    <p id="erroAdmin" style="color: #ff6b6b; font-family: sans-serif; display:none;">Senha incorreta.</p>
+</div>
+
+<div id="modalProduto" class="modal">
+  <div class="modal-content">
+
+    <h2 id="tituloModalProduto">Adicionar Produto</h2>
+
+    <input type="text" id="nomeProduto" placeholder="Nome do Produto">
+
+    <!-- AGORA É AUTOMÁTICO -->
+    <input type="text" id="codigoProduto" placeholder="Código" disabled>
+
+    <input type="number" id="precoProduto" placeholder="Preço (ex: 55)">
+    <input type="number" id="quantidadeProduto" placeholder="Quantidade">
+    <input type="number" id="ordemProduto" placeholder="Ordem de exibição (ex: 1)">
+
+    <label class="check-destaque">
+      <input type="checkbox" id="destaqueProduto">
+      Marcar como destaque
+    </label>
+
+    <label class="label-arquivo">Tamanhos e quantidades</label>
+    <div class="grade-tamanhos" id="gradeTamanhosProduto">
+      <label><input type="checkbox" value="PP"> PP</label>
+      <label><input type="checkbox" value="P"> P</label>
+      <label><input type="checkbox" value="M"> M</label>
+      <label><input type="checkbox" value="G"> G</label>
+      <label><input type="checkbox" value="GG"> GG</label>
+      <label><input type="checkbox" value="G1"> G1</label>
+      <label><input type="checkbox" value="G2"> G2</label>
+    </div>
+    <div class="grade-qtd-tamanho" id="gradeQtdTamanho"></div>
+
+    <!-- STATUS CONTROLADO -->
+    <select id="statusProduto">
+      <option value="Ativo">Ativo</option>
+      <option value="Inativo">Inativo</option>
+    </select>
+
+    <!-- ONDE O PRODUTO VAI APARECER NA LOJA -->
+    <select id="categoriaProduto">
+      <option value="lancamentos">Lançamentos da semana</option>
+      <option value="catalogo">Catálogo de T-shirts</option>
+    </select>
+
+    <label class="label-arquivo">Foto principal</label>
+    <input type="file" id="fotoProduto" accept="image/*">
+    <img class="preview-produto" id="previewFotoProduto" alt="Prévia da foto principal">
+
+    <label class="label-arquivo">Foto ao passar o mouse (opcional)</label>
+    <input type="file" id="fotoHoverProduto" accept="image/*">
+    <img class="preview-produto" id="previewFotoHoverProduto" alt="Prévia da foto de hover">
+
+    <button onclick="salvarProduto()">Salvar</button>
+    <button onclick="fecharModal()">Cancelar</button>
+
+  </div>
+</div>
+
+<div id="modalPedido" class="modal">
+  <div class="modal-content" id="conteudoPedido"></div>
+</div>
+
+<div id="modalCliente" class="modal">
+  <div class="modal-content" id="conteudoCliente"></div>
+</div>
+
+<div class="overlay-alertas" id="overlayAlertas" onclick="fecharPainelAlertas()"></div>
+
+<div class="painel-alertas" id="painelAlertas">
+  <div class="painel-alertas-topo">
+    <h3>⚠️ Alertas de Estoque</h3>
+    <button class="btn-fechar-alertas" onclick="fecharPainelAlertas()">✕</button>
+  </div>
+  <div class="painel-alertas-lista" id="listaPainelAlertas">
+    <p class="alerta-vazio">Carregando alertas...</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h1>LADO DOCE</h1>
+    <p>Doçura em cada vestir</p>
+
+    <nav>
+        <button onclick="trocarTela('dashboard')">📊 Dashboard</button>
+      <button onclick="trocarTela('produtos')">📦 Produtos</button>
+      <button onclick="trocarTela('pedidos')">🧾 Pedidos</button>
+      <button onclick="trocarTela('clientes')">👤 Clientes</button>
+      <button onclick="trocarTela('configuracoes')">⚙️ Configurações</button>
+      
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header class="topo">
+      <button class="btn-sininho" id="btnSininho" onclick="abrirPainelAlertas()" title="Alertas de estoque">
+        🔔
+      </button>
+      <div class="user">👤 Olá, Admin</div>
+    </header>
+
+    <!-- PRODUTOS -->
+    <section id="produtos" class="tela ativa">
+
+      <div class="topo-tela">
+        <h2>Gerenciamento de Produtos</h2>
+
+        <button class="btn-principal" onclick="abrirModal()">
+          + ADICIONAR NOVO PRODUTO
+        </button>
+
+      </div>
+
+<div class="filtros">
+  <select id="filtroStatusProduto">
+    <option value="Status">Status</option>
+    <option value="Ativo">Ativo</option>
+    <option value="Inativo">Inativo</option>
+  </select>
+
+  <select id="filtroCategoriaProduto">
+    <option value="todos">Todas as áreas</option>
+    <option value="lancamentos">Lançamentos</option>
+    <option value="catalogo">Catálogo</option>
+  </select>
+
+  <input type="text" id="filtroBuscaProduto" placeholder="Pesquisar Produto">
+
+  <button class="btn-remover" onclick="limparProdutosDaLoja()">Limpar produtos</button>
+</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Nome do Produto</th>
+            <th>Código</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Tamanhos</th>
+            <th>Status</th>
+            <th>Área na loja</th>
+            <th>Ordem</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </section>
+
+    <!-- PEDIDOS -->
+    <section id="pedidos" class="tela">
+
+      <div class="topo-tela">
+        <h2>Gerenciamento de Pedidos</h2>
+        <button class="btn-remover" onclick="limparPedidosExpirados()">🗑️ Limpar pedidos expirados</button>
+      </div>
+
+<div class="filtros">
+  <select>
+    <option value="todos">Status do Pedido</option>
+    <option value="pendente">Pendente</option>
+    <option value="pago">Pago</option>
+    <option value="enviado">Enviado</option>
+    <option value="entregue">Entregue</option>
+    <option value="cancelado">Cancelado</option>
+    <option value="aguardando_pagamento">Aguardando Pagamento</option>
+</select>
+
+  <input type="date">
+  <input type="text" placeholder="Pesquisar Pedido">
+</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </section>
+
+    <!-- CLIENTES -->
+    <section id="clientes" class="tela">
+
+      <div class="topo-tela">
+        <h2>Gerenciamento de Clientes</h2>
+      </div>
+      
+      <div class="filtros">
+         <select>
+            <option value="todos">Status do Cliente</option>
+            <option value="Ativo">Ativo</option>
+            <option value="Bloqueado">Bloqueado</option>
+        </select>
+        
+        <input type="text" placeholder="Pesquisar Cliente">
+    </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Total Gasto</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </section>
+
+    <!-- CONFIGURAÇÕES -->
+<!-- CONFIGURAÇÕES -->
+<section id="configuracoes" class="tela">
+
+  <div class="topo-tela">
+    <h2>Configurações da loja</h2>
+  </div>
+
+  <div class="config-box">
+    <div class="config-grid-admin">
+
+      <div class="config-card-admin">
+        <h3>Identidade da loja</h3>
+        <input type="text" id="nomeLoja" placeholder="Nome da loja" value="Lado Doce">
+        <input type="text" id="sloganLoja" placeholder="Slogan da loja">
+        <textarea id="textoHeroLoja" placeholder="Texto principal da tela inicial"></textarea>
+        <small>Esses textos deixam o painel preparado para o backend controlar a home futuramente.</small>
+      </div>
+
+      <div class="config-card-admin">
+        <h3>Contato e atendimento</h3>
+        <input type="text" id="whatsappLoja" placeholder="WhatsApp da loja">
+        <input type="text" id="instagramLoja" placeholder="Instagram">
+        <input type="text" id="enderecoLoja" placeholder="Endereço da loja">
+      </div>
+
+      <div class="config-card-admin">
+        <h3>Pedidos</h3>
+        <input type="text" id="statusPadrao" placeholder="Status padrão do pedido" value="Processando">
+        <label>
+          <input type="checkbox" id="alertaPedidos">
+          Avisar quando entrar pedido novo
+        </label>
+        <label>
+          <input type="checkbox" id="autoAtualizarStatus">
+          Preparar atualização automática de status
+        </label>
+      </div>
+
+      <div class="config-card-admin">
+        <h3>Produtos</h3>
+        <input type="number" id="estoqueMinimo" placeholder="Alerta visual abaixo de X unidades">
+        <label>
+          <input type="checkbox" id="alertaEstoque">
+          Mostrar alerta de estoque baixo no admin
+        </label>
+        <small>O controle real de estoque fica para o backend, mas o front já está preparado.</small>
+      </div>
+
+      <div class="config-card-admin full">
+        <h3>Dados</h3>
+        <small>Use exportar para salvar um backup visual dos produtos e pedidos cadastrados neste navegador.</small>
+        <div class="config-botoes">
+          <button onclick="exportarDados()">Exportar dados</button>
+          <button onclick="salvarConfig()">Salvar configurações</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="tela">
+
+  <div class="topo-tela">
+    <h2>Dashboard</h2>
+  </div>
+
+  <div class="dashboard-toolbar">
+    <label>
+      Período das vendas
+      <select id="periodoDashboard">
+        <option value="1">Hoje</option>
+        <option value="7">Últimos 7 dias</option>
+        <option value="30">Últimos 30 dias</option>
+        <option value="60">Últimos 60 dias</option>
+        <option value="90">Últimos 90 dias</option>
+      </select>
+    </label>
+    <span id="resumoPeriodoDashboard">Mostrando vendas de hoje</span>
+  </div>
+
+  <div class="dashboard-cards">
+
+    <div class="card">
+      <h3 id="tituloVendasPeriodo">Vendas do Dia</h3>
+      <p id="vendasDia">R$ 0,00</p>
+    </div>
+
+    <div class="card">
+      <h3>Pedidos no período</h3>
+      <p id="totalPedidosDash">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Clientes Ativos</h3>
+      <p id="clientesAtivosDash">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Produtos Ativos</h3>
+      <p id="produtosAtivosDash">0</p>
+    </div>
+
+  </div>
+
+  <div class="dashboard-historico">
+    <h3>Histórico de vendas</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Cliente</th>
+          <th>Data</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="historicoVendasDash"></tbody>
+    </table>
+  </div>
+
+</section>
+
+  </main>
+</div>
+<script>
+    if (sessionStorage.getItem("adminAuth") === "ok") {
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("telaLoginAdmin").style.display = "none";
+        });
+    }
+
+    function verificarSenhaAdmin() {
+        const senha = document.getElementById("senhaAdmin").value;
+        if (senha) {
+            sessionStorage.setItem("adminAuth", "ok");
+            sessionStorage.setItem("adminKey", senha);
+            document.getElementById("telaLoginAdmin").style.display = "none";
+            // Carrega os dados após login
+            if (typeof iniciarAdmin === "function") iniciarAdmin();
+        } else {
+            document.getElementById("erroAdmin").style.display = "block";
+        }
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") verificarSenhaAdmin();
+    });
+</script>
+
+<script src="admin.js"></script>
+
+</body>
+</html>
