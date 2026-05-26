@@ -589,8 +589,8 @@ if (entrarSenha) {
             alert("Insira um e-mail válido.");
             return;
         }
-        if (!senha || senha.length < 4) {
-            alert("Insira uma senha mais forte (mínimo 4 caracteres).");
+        if (!senha || senha.length < 6) {
+            alert("Insira uma senha mais forte (mínimo 6 caracteres).");
             return;
         }
 
