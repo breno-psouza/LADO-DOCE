@@ -8,8 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
 import random
 import bcrypt
-import smtplib
-from email.mime.text import MIMEText
+
 import requests
 import os
 import traceback
@@ -104,9 +103,6 @@ def tratar_data(data_str):
     raise ValueError("Formato de data inválido")
 
 def enviar_email(codigo, destinatario):
-    remetente = os.getenv("EMAIL_REMETENTE")
-    senha_app = os.getenv("EMAIL_SENHA")
-    
     html_content = f"""
     <html>
         <body style="margin: 0; padding: 0; font-family: sans-serif; background-color: #f4f4f4;">
@@ -140,16 +136,21 @@ def enviar_email(codigo, destinatario):
     </html>
     """
 
-    msg = MIMEText(html_content, "html")
-    msg['Subject'] = f"Sua chave de acesso é {codigo}"
-    msg['From'] = remetente
-    msg['To'] = destinatario
-
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(remetente, senha_app)
-            server.send_message(msg)
-        print("E-mail enviado com sucesso!")
+        response = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "api-key": os.getenv("BREVO_API_KEY"),
+                "Content-Type": "application/json"
+            },
+            json={
+                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "to": [{"email": destinatario}],
+                "subject": f"Sua chave de acesso é {codigo}",
+                "htmlContent": html_content
+            }
+        )
+        print("E-mail enviado com sucesso!", response.status_code)
     except Exception as e:
         print("Erro ao enviar email:", e)
 
@@ -1100,9 +1101,6 @@ def atualizar_status_cliente(usuario_id: int, status: str = Body(..., embed=True
 
 #ESQUECI SENHA
 def enviar_email_recuperacao(codigo: str, destinatario: str):
-    remetente   = os.getenv("EMAIL_RECUPERACAO")
-    senha_app   = os.getenv("EMAIL_SENHA_RECUPERACAO")
-
     html_content = f"""
     <html>
         <body style="margin:0;padding:0;font-family:sans-serif;background-color:#f4f4f4;">
@@ -1120,13 +1118,11 @@ def enviar_email_recuperacao(codigo: str, destinatario: str):
                             Recebemos uma solicitação para redefinir sua senha.<br>
                             Use o código abaixo — ele expira em <strong>15 minutos</strong>.
                         </p>
-
                         <div style="background-color:#eeeeee;padding:20px;display:inline-block;
                                     border-radius:5px;margin:20px 0;">
                             <span style="font-size:32px;font-weight:bold;
                                          letter-spacing:5px;color:#000000;">{codigo}</span>
                         </div>
-
                         <p style="color:#999999;font-size:12px;margin-top:30px;">
                             Se você não solicitou a redefinição, ignore este e-mail.
                             Sua senha permanece a mesma.
@@ -1144,16 +1140,21 @@ def enviar_email_recuperacao(codigo: str, destinatario: str):
     </html>
     """
 
-    msg = MIMEText(html_content, "html")
-    msg['Subject'] = f"Redefinição de senha — código {codigo}"
-    msg['From']    = remetente
-    msg['To']      = destinatario
-
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(remetente, senha_app)
-            server.send_message(msg)
-        print("E-mail de recuperação enviado com sucesso!")
+        response = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "api-key": os.getenv("BREVO_API_KEY"),
+                "Content-Type": "application/json"
+            },
+            json={
+                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "to": [{"email": destinatario}],
+                "subject": f"Redefinição de senha — código {codigo}",
+                "htmlContent": html_content
+            }
+        )
+        print("E-mail de recuperação enviado com sucesso!", response.status_code)
     except Exception as e:
         print("Erro ao enviar e-mail de recuperação:", e)
 
@@ -1311,9 +1312,6 @@ sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
  
 def enviar_email_pedido_confirmado(destinatario: str, pedido_id: int, total: float):
-    remetente  = os.getenv("EMAIL_RECUPERACAO")
-    senha_app  = os.getenv("EMAIL_SENHA_RECUPERACAO")
- 
     html_content = f"""
     <html>
         <body style="margin:0;padding:0;font-family:sans-serif;background-color:#f4f4f4;">
@@ -1352,20 +1350,22 @@ def enviar_email_pedido_confirmado(destinatario: str, pedido_id: int, total: flo
         </body>
     </html>
     """
- 
-    from email.mime.text import MIMEText
-    import smtplib
- 
-    msg = MIMEText(html_content, "html")
-    msg['Subject'] = f"Pedido #{pedido_id} confirmado — Lado Doce"
-    msg['From']    = remetente
-    msg['To']      = destinatario
- 
+
     try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(remetente, senha_app)
-            server.send_message(msg)
-        print(f"E-mail de confirmação enviado para {destinatario}")
+        response = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "api-key": os.getenv("BREVO_API_KEY"),
+                "Content-Type": "application/json"
+            },
+            json={
+                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "to": [{"email": destinatario}],
+                "subject": f"Pedido #{pedido_id} confirmado — Lado Doce",
+                "htmlContent": html_content
+            }
+        )
+        print(f"E-mail de confirmação enviado para {destinatario}", response.status_code)
     except Exception as e:
         print(f"Erro ao enviar e-mail de confirmação: {e}")
   
