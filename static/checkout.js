@@ -1,6 +1,6 @@
 // ================= CONFIGURAÇÕES =================
 // 🔧 MUDE ESTA URL quando hospedar o backend em produção
-const API_URL = "https://disparate-valley-idiocy.ngrok-free.dev";
+const API_URL = "https://lado-doce.onrender.com";
 
 const CHAVE_CARRINHO = "ladoDoceCarrinho";
 const CHAVE_USUARIO = "ladoDoceUser";

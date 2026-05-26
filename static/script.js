@@ -1,6 +1,6 @@
 // ================= CONFIGURAÇÕES GERAIS =================
 // 🔧 MUDE ESTA URL quando hospedar o backend em produção
-const API_URL = "https://disparate-valley-idiocy.ngrok-free.dev";
+const API_URL = "https://lado-doce.onrender.com";
 
 // Wrapper de fetch que injeta o header necessário para o ngrok não retornar
 // a página de aviso no lugar do JSON (afeta todos os ambientes, inofensivo em produção)

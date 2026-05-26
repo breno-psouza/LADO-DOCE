@@ -1,5 +1,5 @@
 // ================= CONFIGURAÇÕES =================
-const API_URL = "https://disparate-valley-idiocy.ngrok-free.dev";
+const API_URL = "https://lado-doce.onrender.com";
 // Chave vem do que o admin digitou no login — nunca hardcoded no código
 
 // Chamada pelo admin.html após login bem-sucedido
