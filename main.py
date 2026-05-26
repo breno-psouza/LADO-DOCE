@@ -144,7 +144,7 @@ def enviar_email(codigo, destinatario):
                 "Content-Type": "application/json"
             },
             json={
-                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "sender": {"name": "Lado Doce", "email": "brenopsouza75@gmail.com"},
                 "to": [{"email": destinatario}],
                 "subject": f"Sua chave de acesso é {codigo}",
                 "htmlContent": html_content
@@ -1148,7 +1148,7 @@ def enviar_email_recuperacao(codigo: str, destinatario: str):
                 "Content-Type": "application/json"
             },
             json={
-                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "sender": {"name": "Lado Doce", "email": "brenopsouza75@gmail.com"},
                 "to": [{"email": destinatario}],
                 "subject": f"Redefinição de senha — código {codigo}",
                 "htmlContent": html_content
@@ -1359,7 +1359,7 @@ def enviar_email_pedido_confirmado(destinatario: str, pedido_id: int, total: flo
                 "Content-Type": "application/json"
             },
             json={
-                "sender": {"name": "Lado Doce", "email": "no-reply@ladodoce.com.br"},
+                "sender": {"name": "Lado Doce", "email": "brenopsouza75@gmail.com"},
                 "to": [{"email": destinatario}],
                 "subject": f"Pedido #{pedido_id} confirmado — Lado Doce",
                 "htmlContent": html_content
