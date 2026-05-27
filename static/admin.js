@@ -233,7 +233,6 @@ function fecharModal() {
 function limparModal() {
     document.getElementById("nomeProduto").value = "";
     document.getElementById("precoProduto").value = "";
-    document.getElementById("quantidadeProduto").value = "";
     document.getElementById("ordemProduto").value = "";
     document.getElementById("destaqueProduto").checked = false;
     document.getElementById("statusProduto").value = "Ativo";
@@ -251,8 +250,6 @@ async function editarProduto(id) {
 
     document.getElementById("nomeProduto").value = produto.nome;
     document.getElementById("precoProduto").value = produto.preco;
-    document.getElementById("quantidadeProduto").value =
-        produto.estoque ? produto.estoque.reduce((s, v) => s + v.quantidade, 0) : 0;
     document.getElementById("ordemProduto").value = "";
     document.getElementById("destaqueProduto").checked = false;
     document.getElementById("statusProduto").value = produto.status || "ativo";
@@ -311,7 +308,6 @@ async function uploadImagemSupabase(arquivo) {
 async function salvarProduto() {
     const nome = document.getElementById("nomeProduto").value.trim();
     const preco = formatarPrecoAdmin(document.getElementById("precoProduto").value.trim());
-    const quantidade = Number(document.getElementById("quantidadeProduto").value.trim()) || 0;
     const categoria = document.getElementById("categoriaProduto").value;
     const tamanhos = obterTamanhosSelecionados();
     const arquivoFoto = document.getElementById("fotoProduto").files?.[0];
@@ -325,6 +321,9 @@ async function salvarProduto() {
         cor: "Único",
         quantidade: qtdPorTamanho[tamanho] || 0
     }));
+
+    // Quantidade total calculada automaticamente pela soma dos tamanhos
+    const quantidade = variacoes.reduce((soma, v) => soma + v.quantidade, 0);
 
     const btnSalvar = document.querySelector("#modalProduto button");
     if (btnSalvar) { btnSalvar.disabled = true; btnSalvar.textContent = "Salvando..."; }
