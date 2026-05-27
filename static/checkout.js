@@ -107,6 +107,10 @@ async function calcularFreteDaAPI(cep) {
                     return `
                         <label class="opcao-frete">
                             <span>
+                                <input type="radio" name="frete"
+                                    value="0"
+                                    data-tipo="whatsapp"
+                                    data-prazo="a combinar">
                                 <a href="${opcao.link}" target="_blank">📱 ${opcao.nome}</a>
                                 <small>${opcao.descricao}</small>
                             </span>
@@ -248,6 +252,14 @@ if (confirmarPedido) {
             mensagemCheckout.classList.add("active");
             mensagemCheckout.style.color = "red";
             mensagemCheckout.textContent = "Digite o CEP para calcular e selecionar uma opção de frete.";
+            return;
+        }
+
+        // Se frete é por WhatsApp, mostra mensagem e não prossegue
+        if (freteSelecionado.tipo === "whatsapp") {
+            mensagemCheckout.classList.add("active");
+            mensagemCheckout.style.color = "#856404";
+            mensagemCheckout.textContent = "Para combinar frete pelo WhatsApp, finalize seu pedido normalmente e anote o número do pedido. Em seguida, nos contate via WhatsApp para combinarmos a entrega.";
             return;
         }
 
