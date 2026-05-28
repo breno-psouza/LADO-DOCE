@@ -1045,6 +1045,7 @@ function criarCardProdutoAPI(produto) {
     const nomeCurto = produto.nome && produto.nome.length > 22 ? escaparHTML(produto.nome.slice(0, 22) + "...") : nome;
     const preco = formatarMoeda(produto.preco);
     const foto = produto.imagem_url || "imagens/Monograma.png";
+    const fotoHover = produto.imagem_hover_url || foto;
     const esgotado = produto.esgotado;
 
     return `
@@ -1057,7 +1058,7 @@ function criarCardProdutoAPI(produto) {
              data-estoque='${JSON.stringify(produto.estoque)}'>
             <div class="imagem-produto">
                 <img src="${foto}" class="img-principal" alt="${nome}">
-                <img src="${foto}" class="img-hover" alt="${nome}">
+                <img src="${fotoHover}" class="img-hover" alt="${nome}">
 
                 ${esgotado ? `<div class="badge-esgotado">ESGOTADO</div>` : ""}
 
@@ -1352,7 +1353,6 @@ function iniciarPollingStatus(pedido_id) {
 }
  
 // ── Chama a verificação quando a página carregar ──────────────────────────
-// (coloque em compracerta.html, compraerrada.html e aguardando-pagamento.html)
  
 document.addEventListener("DOMContentLoaded", verificarRetornoPagamento);
  
