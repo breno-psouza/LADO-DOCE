@@ -27,9 +27,9 @@ class ProdutoCreate(BaseModel):
     preco: float
     categoria: str
     imagem_url: Optional[str] = None
+    imagem_hover_url: str = ""
     variacoes: List[EstoqueSchema]
 
-# ESTAS CLASSES PRECISAM ESTAR AQUI PARA O MAIN FUNCIONAR
 class AlertaItem(BaseModel):
     aviso: str
     produto: str

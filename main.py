@@ -398,6 +398,7 @@ def listar_produtos():
                 "preco": float(p.preco),
                 "categoria": p.categoria,
                 "imagem_url": p.imagem_url,
+                "imagem_hover_url": p.imagem_hover_url or "",
                 "status": p.status or "ativo", 
                 "esgotado": total_estoque == 0,
                 "estoque": [
@@ -890,7 +891,8 @@ def criar_produto(produto: ProdutoCreate):
             descricao=produto.descricao,
             preco=produto.preco,
             categoria=produto.categoria,
-            imagem_url=produto.imagem_url or ""
+            imagem_url=produto.imagem_url or "",
+            imagem_hover_url=produto.imagem_hover_url or ""
         )
         db.add(novo)
         db.commit()
@@ -924,6 +926,8 @@ def editar_produto(produto_id: int, produto: ProdutoCreate):
         p.categoria = produto.categoria
         if produto.imagem_url:
             p.imagem_url = produto.imagem_url
+        if produto.imagem_hover_url is not None:
+            p.imagem_hover_url = produto.imagem_hover_url
         # Remove variações antigas e recria
         db.query(models.Estoque).filter(models.Estoque.produto_id == produto_id).delete()
         for v in produto.variacoes:

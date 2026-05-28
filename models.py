@@ -51,8 +51,9 @@ class Produto(Base):
     descricao = Column(String)
     preco = Column(Numeric(10, 2), nullable=False)
     imagem_url = Column(String)
+    imagem_hover_url = Column(String, default="")
     categoria = Column(String)
-    status = Column(String, default="ativo")  # ← NOVO: ativo | inativo
+    status = Column(String, default="ativo")  
     estoque = relationship("Estoque", back_populates="produto", cascade="all, delete")
 
 

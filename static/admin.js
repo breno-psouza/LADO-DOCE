@@ -311,6 +311,7 @@ async function salvarProduto() {
     const categoria = document.getElementById("categoriaProduto").value;
     const tamanhos = obterTamanhosSelecionados();
     const arquivoFoto = document.getElementById("fotoProduto").files?.[0];
+    const arquivoFotoHover = document.getElementById("fotoHoverProduto").files?.[0];
 
     if (!nome || !preco) { alert("Preencha nome e preço."); return; }
     if (tamanhos.length === 0) { alert("Selecione pelo menos um tamanho."); return; }
@@ -329,11 +330,11 @@ async function salvarProduto() {
     if (btnSalvar) { btnSalvar.disabled = true; btnSalvar.textContent = "Salvando..."; }
 
     try {
-        // Faz upload da imagem se um arquivo foi selecionado
+        // Faz upload da imagem principal se um arquivo foi selecionado
         let imagemUrl = editProdutoId ? produtos.find(p => p.id === editProdutoId)?.imagem_url || "" : "";
 
         if (arquivoFoto) {
-            btnSalvar.textContent = "Enviando imagem...";
+            btnSalvar.textContent = "Enviando imagem principal...";
             const urlUpload = await uploadImagemSupabase(arquivoFoto);
             if (!urlUpload) {
                 alert("Erro ao enviar a imagem. Verifique sua conexão e tente novamente.");
@@ -342,7 +343,20 @@ async function salvarProduto() {
             imagemUrl = urlUpload;
         }
 
-        const corpo = { nome, descricao: "", preco, categoria, imagem_url: imagemUrl, variacoes };
+        // Faz upload da imagem hover se um arquivo foi selecionado
+        let imagemHoverUrl = editProdutoId ? produtos.find(p => p.id === editProdutoId)?.imagem_hover_url || "" : "";
+
+        if (arquivoFotoHover) {
+            btnSalvar.textContent = "Enviando imagem hover...";
+            const urlHoverUpload = await uploadImagemSupabase(arquivoFotoHover);
+            if (!urlHoverUpload) {
+                alert("Erro ao enviar a imagem hover. Verifique sua conexão e tente novamente.");
+                return;
+            }
+            imagemHoverUrl = urlHoverUpload;
+        }
+
+        const corpo = { nome, descricao: "", preco, categoria, imagem_url: imagemUrl, imagem_hover_url: imagemHoverUrl, variacoes };
 
         btnSalvar.textContent = "Salvando produto...";
         const url = editProdutoId ? `${API_URL}/admin/produto/${editProdutoId}` : `${API_URL}/admin/produto`;
