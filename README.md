@@ -22,7 +22,7 @@
 
 ## 🎥 Vídeo de Apresentação
 
-📹 [Assistir no YouTube](https://youtu.be/nMvhmAvXvIo)
+📹 [Assistir no YouTube](https://youtu.be/r0YWEa7xplw?si=7JjroyJ7Tkl5Mcfp)
 
 ---
 
